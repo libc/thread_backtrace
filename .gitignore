@@ -1,0 +1,5 @@
+ext/thread_backtrace/Makefile
+pkg
+*.bundle
+*.so
+*.o
