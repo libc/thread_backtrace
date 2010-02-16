@@ -4,6 +4,7 @@
 
 extern rb_thread_t rb_main_thread, rb_curr_thread;
 extern struct FRAME * ruby_frame;
+static VALUE cThreadError;
 
 static rb_thread_t find_thread(VALUE thread)
 {
@@ -14,17 +15,17 @@ static rb_thread_t find_thread(VALUE thread)
     t = t->next;
   } while (t != rb_main_thread);
 
-  // todo: raise exception
-  return 0;
+  rb_raise(cThreadError, "killed thread");
+  return NULL;
 }
 
 static void * convert_pointer(rb_thread_t thread, void * ptr)
 {
   VALUE *p = (VALUE*)ptr;
 
-  if(thread == rb_curr_thread) return ptr;
+  if (thread == rb_curr_thread) return ptr;
 
-  if(p >= thread->stk_pos && p <= thread->stk_pos + thread->stk_len)
+  if (p >= thread->stk_pos && p <= thread->stk_pos + thread->stk_len)
     return (p - thread->stk_pos) + thread->stk_ptr;
 
   return p;
@@ -68,6 +69,8 @@ static VALUE thread_backtrace(VALUE self)
 
 void Init_thread_backtrace()
 {
-  VALUE cThread = rb_define_class("Thread", rb_cObject);
+  VALUE cThread = rb_const_get(rb_cObject, rb_intern("Thread"));
   rb_define_method(cThread, "backtrace", thread_backtrace, 0);
+
+  cThreadError = rb_const_get(rb_cObject, rb_intern("ThreadError"));
 }
