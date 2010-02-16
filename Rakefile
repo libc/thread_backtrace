@@ -7,6 +7,7 @@ spec = Gem::Specification.new do |s|
   s.version = '0.1'
   s.platform = Gem::Platform::RUBY
   s.has_rdoc = true
+  s.authors = ['Eugene Pimenov']
   s.extra_rdoc_files = ["README.markdown"]
   s.summary = "Adds Thread\#backtrace"
   s.description = "Adds Thread\#backtrace for inspecting bactrace of a thread. Only works on 1.8"

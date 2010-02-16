@@ -5,6 +5,10 @@ Thread Backtrace
 
 It adds Thread#backtrace. Although I abuse private APIs of Ruby, no ruby patches are required. It **does not** work with 1.9.
 
+Installation is simple as
+
+    gem install thread_backtrace
+
 Example
 -------
 
